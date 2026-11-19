@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Maluti Play: stories from the Mountain Kingdom. A streaming platform run by its administrator, with movies, series, reels and short videos.">
+  <title>Discover | Maluti Play</title>
+  <link rel="icon" href="images/favicon.png" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+
+<div class="app-shell">
+
+  <!-- SIDEBAR / NAVIGATION -->
+  <header class="sidebar">
+    <div class="brand">
+      <div class="brand-row">
+        <img class="brand-logo" src="images/logo.png" alt="Maluti Play logo" width="40" height="40">
+        <div class="brand-text">
+          <span class="brand-mark" id="brandMark">Maluti Play</span>
+          <span class="brand-sub" id="brandSub">Log in to watch</span>
+        </div>
+        <button class="sidebar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation menu">&#9776; Menu</button>
+      </div>
+    </div>
+
+    <div class="collapse sidebar-collapse" id="navMenu">
+      <nav aria-label="Main navigation">
+        <ul class="nav-list">
+          <li><a class="nav-tab" href="#home" data-view="home"><span class="tab-index">01</span><span>Discover</span></a></li>
+          <li><a class="nav-tab" href="#browse" data-view="browse"><span class="tab-index">02</span><span>Browse</span></a></li>
+          <li><a class="nav-tab" href="#reels" data-view="reels"><span class="tab-index">03</span><span>Reels</span></a></li>
+          <li><a class="nav-tab" href="#mylist" data-view="mylist"><span class="tab-index">04</span><span>My List <span class="count-pill" id="listCount">0</span></span></a></li>
+          <li><a class="nav-tab" href="#account" data-view="account"><span class="tab-index">05</span><span id="accountLabel">Log In / Sign Up</span></a></li>
+          <li><a class="nav-tab" href="#about" data-view="about"><span class="tab-index">06</span><span>About &amp; Help</span></a></li>
+          <li id="adminNavItem" hidden><a class="nav-tab" href="#admin" data-view="admin"><span class="tab-index">07</span><span>Admin Panel <span class="count-pill" id="pendingPill" hidden>0</span></span></a></li>
+        </ul>
+      </nav>
+      <div class="sidebar-foot">
+        <div id="sessionBar" class="session-bar" hidden>
+          <span id="sessionName"></span>
+          <button type="button" id="logoutBtn" class="link-btn">Log out</button>
+        </div>
+        <p class="foot-copy">&copy; 2026 <span class="site-name">Maluti Play</span> &middot; Stories from the Mountain Kingdom. All rights reserved.</p>
+        <p class="foot-note">All videos remain the property of their respective owners.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main" id="main" tabindex="-1">
+
+    <!-- 01 DISCOVER -->
+    <section id="view-home" class="view" aria-labelledby="homeTitle">
+      <div class="page-head">
+        <video id="bgVideo" class="banner-video" muted loop autoplay playsinline preload="auto" poster="images/background.jpg" aria-hidden="true" tabindex="-1"><source src="videos/maluti-banner.mp4" type="video/mp4"></video>
+        <div>
+          <p class="page-eyebrow">Discover</p>
+          <h1 class="page-title" id="homeTitle">Welcome</h1>
+          <p class="page-desc" id="homeTagline"></p>
+        </div>
+      </div>
+
+      <div id="status" role="status" aria-live="polite"></div>
+      <div id="homeEmpty" class="notice" role="status" hidden></div>
+
+      <article id="hero" class="hero" aria-label="Featured title" hidden></article>
+
+      <section class="section" id="sec-trending" aria-labelledby="trendingHead" hidden>
+        <h2 class="section-title" id="trendingHead">Trending Now</h2>
+        <div id="rowTrending" class="shelf"></div>
+      </section>
+      <section class="section" id="sec-new" aria-labelledby="newHead" hidden>
+        <h2 class="section-title" id="newHead">New Releases</h2>
+        <div id="rowNew" class="shelf"></div>
+      </section>
+      <section class="section" id="sec-rec" aria-labelledby="recHead" hidden>
+        <h2 class="section-title" id="recHead">Recommended</h2>
+        <div id="rowRec" class="shelf"></div>
+      </section>
+      <section class="section" id="sec-reels" aria-labelledby="reelHead" hidden>
+        <h2 class="section-title" id="reelHead">Reels</h2>
+        <div id="rowReels" class="shelf reel-shelf"></div>
+      </section>
+    </section>
+
+    <!-- 02 BROWSE -->
+    <section id="view-browse" class="view" aria-labelledby="browseTitle" hidden>
+      <div class="page-head">
+        <div>
+          <p class="page-eyebrow">Catalogue</p>
+          <h1 class="page-title" id="browseTitle">Browse the Catalogue</h1>
+          <p class="page-desc">Search by name or description, then narrow by genre or type.</p>
+        </div>
+      </div>
+      <form id="filterForm" class="form-panel" role="search" aria-label="Search and filter titles">
+        <div class="row g-3">
+          <div class="col-12 col-md-6 col-xl-4 field"><label for="searchInput">Search</label>
+            <input id="searchInput" type="search" placeholder="Search by name or description"></div>
+          <div class="col-6 col-md-3 col-xl-2 field"><label for="genreFilter">Genre</label>
+            <select id="genreFilter"><option value="all">All genres</option></select></div>
+          <div class="col-6 col-md-3 col-xl-2 field"><label for="typeFilter">Type</label>
+            <select id="typeFilter"><option value="all">All types</option></select></div>
+          <div class="col-6 col-md-3 col-xl-2 field"><label for="sortSelect">Sort by</label>
+            <select id="sortSelect"><option value="added">Recently added</option><option value="title">Title A-Z</option><option value="newest">Newest year</option><option value="oldest">Oldest year</option></select></div>
+          <div class="col-6 col-md-3 col-xl-2 field d-flex align-items-end"><button id="resetBtn" class="btn-nl btn-nl-outline w-100" type="button">Reset</button></div>
+        </div>
+      </form>
+      <p id="resultCount" class="text-soft mono" role="status" aria-live="polite"></p>
+      <div id="catalogueGrid" class="card-grid"></div>
+      <p id="noResults" class="notice" role="alert" hidden>No titles found. Try a different word, reset the filters, or ask the administrator to add more.</p>
+    </section>
+
+    <!-- 03 REELS -->
+    <section id="view-reels" class="view" aria-labelledby="reelsTitle" hidden>
+      <div class="page-head">
+        <div>
+          <p class="page-eyebrow">Short clips</p>
+          <h1 class="page-title" id="reelsTitle">Reels</h1>
+          <p class="page-desc">Quick videos picked by the administrator. Members can watch them here.</p>
+        </div>
+      </div>
+      <p id="reelsEmpty" class="notice" role="status">No reels yet. The administrator can add one by ticking "Reel" on a title.</p>
+      <div id="reelGrid" class="reel-grid"></div>
+    </section>
+
+    <!-- 04 MY LIST -->
+    <section id="view-mylist" class="view" aria-labelledby="listTitle" hidden>
+      <div class="page-head">
+        <div>
+          <p class="page-eyebrow">Saved</p>
+          <h1 class="page-title" id="listTitle">My List</h1>
+          <p class="page-desc">Titles you saved are kept in this browser (localStorage), even after a refresh.</p>
+        </div>
+        <button id="clearList" class="btn-nl btn-nl-danger" type="button">Clear list</button>
+      </div>
+      <p id="listEmpty" class="notice" role="status">Your list is empty. Press <strong>+ My List</strong> on any title to save it here.</p>
+      <div id="listGrid" class="card-grid"></div>
+    </section>
+
+    <!-- 05 ACCOUNT -->
+    <section id="view-account" class="view" aria-labelledby="accountTitle" hidden>
+      <div class="page-head">
+        <div>
+          <p class="page-eyebrow">Membership</p>
+          <h1 class="page-title" id="accountTitle">Account</h1>
+          <p class="page-desc">Join to watch videos and reels, save your favourites and download what is available. The administrator approves every new member.</p>
+        </div>
+      </div>
+
+      <div class="mode-tabs" role="tablist" aria-label="Account type">
+        <button class="mode-tab active" id="modeMember" type="button" role="tab" aria-selected="true" data-mode="member">Member</button>
+        <button class="mode-tab" id="modeAdmin" type="button" role="tab" aria-selected="false" data-mode="admin">Administrator</button>
+      </div>
+
+      <div id="panelMember" class="mode-panel">
+      <div id="memberLoggedOut">
+        <div class="mode-tabs sub-tabs" role="tablist" aria-label="Member options">
+          <button class="mode-tab active" type="button" role="tab" aria-selected="true" data-sub="login" id="subLogin">Log In</button>
+          <button class="mode-tab" type="button" role="tab" aria-selected="false" data-sub="signup" id="subSignup">Sign Up</button>
+        </div>
+        <form id="loginForm" class="form-panel narrow" novalidate>
+          <h2 class="section-title">Member log in</h2>
+          <div class="field"><label for="liEmail">Email or username</label><input id="liEmail" type="text" required autocomplete="username"></div>
+          <div class="field"><label for="liPass">Password</label><input id="liPass" type="password" required minlength="6" autocomplete="current-password"></div>
+          <div class="form-actions"><button class="btn-nl btn-nl-primary" type="submit">Log in</button></div>
+          <div id="loginMsg" class="form-status" role="alert" aria-live="assertive"></div>
+          <p class="form-note">Student project: this form does not create a real online account. Details stay in your browser only, so please don't use a password from another site.</p>
+        </form>
+        <form id="signupForm" class="form-panel narrow" novalidate hidden>
+          <h2 class="section-title">Apply for membership</h2>
+          <div class="field"><label for="suName">Full name</label><input id="suName" type="text" required minlength="3" maxlength="40" autocomplete="name"></div>
+          <div class="field"><label for="suEmail">Email address</label><input id="suEmail" type="email" required autocomplete="email"></div>
+          <div class="field"><label for="suPass">Password <span class="text-soft">(at least 6 characters, with a number)</span></label><input id="suPass" type="password" required minlength="6" autocomplete="new-password"></div>
+          <div class="form-actions"><button class="btn-nl btn-nl-brass" type="submit">Send application</button></div>
+          <div id="signupMsg" class="form-status" role="alert" aria-live="assertive"></div>
+          <p class="form-note">The administrator reviews every application. Student project: this form does not create a real online account. Details stay in your browser only, so please don't use a password from another site.</p>
+        </form>
+      </div>
+
+      <div id="memberLoggedIn" hidden>
+        <div class="profile-card">
+          <h2 class="section-title">Your membership</h2>
+          <dl class="profile-meta" id="profileMeta"></dl>
+          <p class="text-soft">You can watch every title that has a video and download the videos the administrator allows.</p>
+          <button id="logoutBtn2" class="btn-nl btn-nl-outline" type="button">Log out</button>
+        </div>
+      </div>
+
+      </div>
+
+      <div id="panelAdmin" class="mode-panel" hidden>
+        <form id="adminLoginForm" class="form-panel narrow" novalidate>
+          <h2 class="section-title">Administrator log in</h2>
+          <div class="field"><label for="adUser">Username</label><input id="adUser" type="text" required autocomplete="username"></div>
+          <div class="field"><label for="adPass">Password</label><input id="adPass" type="password" required autocomplete="current-password"></div>
+          <div class="form-actions"><button class="btn-nl btn-nl-primary" type="submit">Log in as administrator</button></div>
+          <div id="adminLoginMsg" class="form-status" role="alert" aria-live="assertive"></div>
+        </form>
+        <div id="adminCard" class="profile-card" hidden>
+          <h2 class="section-title">Administrator</h2>
+          <p>You are signed in as the administrator of this platform.</p>
+          <a class="btn-nl btn-nl-brass" href="#admin">Open Admin Panel</a>
+          <button id="logoutBtn3" class="btn-nl btn-nl-outline" type="button">Log out</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 07 ADMIN PANEL -->
+    <section id="view-admin" class="view" aria-labelledby="adminTitle" hidden>
+      <div class="page-head">
+        <div>
+          <p class="page-eyebrow">Staff only</p>
+          <h1 class="page-title" id="adminTitle">Admin Panel</h1>
+          <p class="page-desc">You control everything members see: titles, posters, videos, series, trending, new releases, reels, featured title and members.</p>
+        </div>
+      </div>
+      <div class="stat-strip" id="adminStats"></div>
+
+      <div class="admin-tabs" role="tablist" aria-label="Admin sections">
+        <button class="admin-tab active" type="button" role="tab" aria-selected="true" data-tab="approvals">Approvals <span class="tab-count" id="tcApprovals">0</span></button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="members">Members <span class="tab-count" id="tcMembers">0</span></button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="titles">Catalogue <span class="tab-count" id="tcTitles">0</span></button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="addtitle" id="addTitleTab">Add Title</button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="messages">Messages <span class="tab-count" id="tcMessages">0</span></button>
+        <button class="admin-tab" type="button" role="tab" aria-selected="false" data-tab="settings">Settings</button>
+      </div>
+
+      <div id="tab-approvals" class="admin-pane">
+        <div id="approvalList" class="approval-list"></div>
+      </div>
+
+      <div id="tab-members" class="admin-pane" hidden>
+        <form id="addMemberForm" class="form-panel" novalidate>
+          <h2 class="section-title">Add a member (approved immediately)</h2>
+          <div class="row g-3">
+            <div class="col-12 col-md-4 field"><label for="amName">Full name</label><input id="amName" type="text" required minlength="3"></div>
+            <div class="col-12 col-md-4 field"><label for="amEmail">Email</label><input id="amEmail" type="email" required></div>
+            <div class="col-12 col-md-4 field"><label for="amPass">Password</label><input id="amPass" type="text" required minlength="6" autocomplete="off"></div>
+          </div>
+          <div class="form-actions"><button class="btn-nl btn-nl-brass" type="submit">Add member</button></div>
+          <div id="addMemberMsg" class="form-status" role="alert"></div>
+        </form>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Name</th><th>Email</th><th>Joined</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="memberRows"></tbody>
+        </table></div>
+      </div>
+
+      <div id="tab-titles" class="admin-pane" hidden>
+        <p class="notice">Use the buttons in <strong>Show on Discover page</strong> to decide what appears where. Click a button to switch it on or off. Only one title can be Featured.</p>
+        <div class="form-actions mb-3">
+          <button id="exportBtn" class="btn-nl btn-nl-outline" type="button">Export catalogue (titles.json)</button>
+          <label class="btn-nl btn-nl-outline mb-0" for="importFile">Import catalogue</label>
+          <input id="importFile" type="file" accept="application/json,.json" hidden>
+        </div>
+        <div id="importMsg" class="form-status" role="status"></div>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Title</th><th>Type</th><th>Video</th><th>Show on Discover page</th><th>Actions</th></tr></thead>
+          <tbody id="titleRows"></tbody>
+        </table></div>
+      </div>
+
+      <div id="tab-addtitle" class="admin-pane" hidden>
+        <form id="titleForm" class="form-panel" novalidate>
+          <h2 class="section-title" id="titleFormHead">Add a movie, series, reel or short</h2>
+          <input type="hidden" id="tfEditId">
+          <div class="row g-3">
+            <div class="col-12 col-md-6 field"><label for="tfTitle">Title *</label><input id="tfTitle" type="text" required minlength="2" maxlength="80"></div>
+            <div class="col-6 col-md-3 field"><label for="tfType">Type *</label>
+              <select id="tfType"><option>Film</option><option>Series</option><option>Short</option></select></div>
+            <div class="col-6 col-md-3 field"><label for="tfGenre">Genre *</label><input id="tfGenre" type="text" required list="genreList" maxlength="30">
+              <datalist id="genreList"></datalist></div>
+            <div class="col-6 col-md-3 field"><label for="tfYear">Year *</label><input id="tfYear" type="number" min="1900" max="2030" required></div>
+            <div class="col-6 col-md-3 field"><label for="tfDuration">Duration</label><input id="tfDuration" type="text" placeholder="e.g. 90 min or 8 episodes" maxlength="30"></div>
+            <div class="col-12 col-md-6 field"><label for="tfDesc">Short description *</label><textarea id="tfDesc" rows="2" required minlength="10" maxlength="300"></textarea></div>
+          </div>
+
+          <h3 class="form-subhead">Show on the Discover page</h3>
+          <div class="check-row">
+            <label class="check"><input id="tfFeatured" type="checkbox"> Featured (top banner)</label>
+            <label class="check"><input id="tfTrending" type="checkbox"> Trending Now</label>
+            <label class="check"><input id="tfNew" type="checkbox"> New Releases</label>
+            <label class="check"><input id="tfRecommended" type="checkbox"> Recommended</label>
+            <label class="check"><input id="tfReel" type="checkbox"> Reel</label>
+          </div>
+
+          <h3 class="form-subhead">Poster</h3>
+          <div class="row g-3">
+            <div class="col-12 col-md-6 field"><label for="tfPosterFile">Upload poster image</label><input id="tfPosterFile" type="file" accept="image/*"><small class="text-soft">Resized automatically. Leave empty to keep the current poster.</small></div>
+            <div class="col-12 col-md-6 field"><label for="tfPoster">...or poster image link <span class="text-soft">(optional)</span></label><input id="tfPoster" type="url" placeholder="https://..."></div>
+          </div>
+
+          <h3 class="form-subhead">Video</h3>
+          <div class="row g-3">
+            <div class="col-12 col-md-6 field"><label for="tfFile">Upload a video file</label><input id="tfFile" type="file" accept="video/*">
+              <small class="text-soft" id="tfCurrentFile"></small></div>
+            <div class="col-12 col-md-6 field"><label for="tfWatch">...or watch link (URL)</label><input id="tfWatch" type="url" placeholder="https://www.youtube.com/watch?v=... or a .mp4 link">
+              <small class="text-soft">YouTube, Vimeo and .mp4/.webm links play inside the site. Other links open in a new tab.</small></div>
+            <div class="col-12 col-md-6 field"><label for="tfDownload">Download link <span class="text-soft">(optional, for linked videos)</span></label><input id="tfDownload" type="url" placeholder="https://.../clip.mp4"></div>
+            <div class="col-12 col-md-6 field"><label class="check"><input id="tfAllowDownload" type="checkbox"> Let members download uploaded video files</label></div>
+          </div>
+          <p class="notice mt-2">Uploaded videos and posters are saved inside <strong>this browser</strong> (IndexedDB). Keep each clip under about 50 MB. They will not appear on other computers. For the hosted site, use links, then use <em>Export catalogue</em>.</p>
+
+          <div id="episodeBox" hidden>
+            <h3 class="form-subhead">Episodes</h3>
+            <div id="episodeList"></div>
+            <button id="addEpisodeBtn" class="btn-nl btn-nl-outline" type="button">+ Add episode</button>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn-nl btn-nl-brass" type="submit" id="tfSubmit">Add title</button>
+            <button class="btn-nl btn-nl-outline" type="button" id="tfCancel" hidden>Cancel edit</button>
+          </div>
+          <div id="titleFormMsg" class="form-status" role="alert" aria-live="assertive"></div>
+        </form>
+      </div>
+
+      <div id="tab-messages" class="admin-pane" hidden>
+        <div id="messageList" class="approval-list"></div>
+      </div>
+
+      <div id="tab-settings" class="admin-pane" hidden>
+        <form id="settingsForm" class="form-panel narrow" novalidate>
+          <h2 class="section-title">Platform settings</h2>
+          <div class="field"><label for="stName">Platform name</label><input id="stName" type="text" required minlength="2" maxlength="30"></div>
+          <div class="field"><label for="stTagline">Tagline (shown on Discover)</label><input id="stTagline" type="text" maxlength="120"></div>
+          <div class="form-actions"><button class="btn-nl btn-nl-brass" type="submit">Save settings</button></div>
+          <div id="settingsMsg" class="form-status" role="alert"></div>
+        </form>
+        <form id="passForm" class="form-panel narrow" novalidate>
+          <h2 class="section-title">Change administrator password</h2>
+          <div class="field"><label for="pwOld">Current password</label><input id="pwOld" type="password" required autocomplete="off"></div>
+          <div class="field"><label for="pwNew">New password (min 6 characters)</label><input id="pwNew" type="password" required minlength="6" autocomplete="off"></div>
+          <div class="field"><label for="pwNew2">Repeat new password</label><input id="pwNew2" type="password" required autocomplete="off"></div>
+          <div class="form-actions"><button class="btn-nl btn-nl-primary" type="submit">Change password</button></div>
+          <div id="passMsg" class="form-status" role="alert"></div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 06 ABOUT -->
+    <section id="view-about" class="view" aria-labelledby="aboutTitle" hidden>
+      <div class="page-head">
+        <div>
+          <p class="page-eyebrow">About</p>
+          <h1 class="page-title" id="aboutTitle">About &amp; Help</h1>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-12 col-xl-7">
+          <p><strong class="site-name">Maluti Play</strong> is a streaming platform for Lesotho, run entirely by its administrator. The administrator uploads the movies, series, reels and short videos, chooses what is trending, and approves who can watch. Target users are students, families and curious viewers aged 15 to 45.</p>
+          <p class="text-soft">The name comes from the Maluti (Maloti) Mountains that cover Lesotho, the Mountain Kingdom. The logo is a view of a winding road through those mountains. Any third-party video is credited on its title page and remains the property of its owner.</p>
+          <h2 class="section-title">Frequently asked questions</h2>
+          <div class="accordion" id="faq">
+            <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#f1" aria-expanded="true" aria-controls="f1">How do I become a member?</button></h3>
+              <div id="f1" class="accordion-collapse collapse show" data-bs-parent="#faq"><div class="accordion-body">Open Account, choose Sign Up and send your application. The administrator reviews it. Once approved you can log in and watch.</div></div></div>
+            <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f2" aria-expanded="false" aria-controls="f2">What can members do?</button></h3>
+              <div id="f2" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">Members watch videos and reels, save titles to My List and download videos the administrator allows. Only the administrator can add or remove content and members.</div></div></div>
+            <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f3" aria-expanded="false" aria-controls="f3">Why does a link open in a new tab?</button></h3>
+              <div id="f3" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">Many video sites do not allow embedding. For those, the administrator's link opens on the original site.</div></div></div>
+            <div class="accordion-item"><h3 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#f4" aria-expanded="false" aria-controls="f4">Where is my data saved?</button></h3>
+              <div id="f4" class="accordion-collapse collapse" data-bs-parent="#faq"><div class="accordion-body">Members, My Lists and titles are stored in this browser using localStorage. Uploaded video files are stored in IndexedDB. Nothing is shared with other devices.</div></div></div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-5">
+          <form id="contactForm" class="form-panel" novalidate>
+            <h2 class="section-title">Contact &amp; help</h2>
+            <div class="field"><label for="ctName">Your name</label><input id="ctName" type="text" required minlength="2"></div>
+            <div class="field"><label for="ctEmail">Email</label><input id="ctEmail" type="email" required></div>
+            <div class="field"><label for="ctMsg">Message</label><textarea id="ctMsg" rows="4" required minlength="10"></textarea></div>
+            <div class="form-actions"><button class="btn-nl btn-nl-primary" type="submit">Send message</button></div>
+            <div id="contactMsg" class="form-status" role="alert" aria-live="assertive"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<!-- TITLE DETAILS / PLAYER MODAL -->
+<div class="modal fade" id="titleModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle"></h2>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div id="modalPlayer" class="player-box" hidden></div>
+        <div class="row g-3">
+          <div class="col-4 col-md-3"><img id="modalPoster" class="modal-poster" alt=""></div>
+          <div class="col-8 col-md-9">
+            <p id="modalMeta" class="card-genre"></p>
+            <p id="modalDesc"></p>
+            <p id="modalCredit" class="text-soft small"></p>
+            <p id="modalLock" class="notice" hidden>Log in as an approved member to watch or download. <a href="#account" id="modalLoginLink">Go to Account</a></p>
+          </div>
+        </div>
+        <div id="modalEpisodes" class="mt-3" hidden></div>
+      </div>
+      <div class="modal-footer">
+        <button id="modalWatchBtn" class="btn-nl btn-nl-brass" type="button">&#9654; Watch</button>
+        <a id="modalOpenLink" class="btn-nl btn-nl-outline" href="#" target="_blank" rel="noopener noreferrer" hidden>Open link in new tab</a>
+        <button id="modalDownload" class="btn-nl btn-nl-primary" type="button" hidden>&#8681; Download</button>
+        <button id="modalListBtn" class="btn-nl btn-nl-outline" type="button">+ My List</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <div id="appToast" class="toast" role="status" aria-live="polite" aria-atomic="true">
+    <div class="d-flex"><div id="toastBody" class="toast-body"></div>
+      <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/fallback-data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
